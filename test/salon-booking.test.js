@@ -159,19 +159,10 @@ describe("The Booking Salon", function () {
         await booking.makeBooking(makeAbooking);
         await booking.makeBooking(makeAbooking2);
 
-        const bookings = await booking.findAllBookings();
+        const bookings = await booking.findAllBookings(makeAbooking2.date);
 
         assert.deepEqual(
             [
-                {
-                    booking_date: "2023-11-30",
-                    booking_time: "10:45:00",
-                    client_first_name: "Mthunzi",
-                    client_last_name: "Tom",
-                    stylist_first_name: "Sino",
-                    stylist_last_name: "Mguli",
-                    treatment_type: "Pedicure",
-                },
                 {
                     booking_date: "2023-12-09",
                     booking_time: "10:30:00",
@@ -238,6 +229,15 @@ describe("The Booking Salon", function () {
             ],
             bookings
         );
+
+        const checkBooking2 = {
+            date: "2023-12-31"
+        };
+
+        // Testing for only date
+        const bookings2 = await booking.findAllBookings__(checkBooking2);
+
+        assert.equal(1, bookings2.length);
     });
 
     it("should be able to find stylist booked for treatment", async () => {

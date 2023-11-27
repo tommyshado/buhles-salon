@@ -36,7 +36,7 @@ router.post("/book/treatment/", async (req, res) => {
         if(isBooked) {
             booking.booked = true;
             // Make booking
-            salonService.makeBooking(booking);
+            await salonService.makeBooking(booking);
     
             req.flash("success", "Treatment booked successfully.");
             res.redirect("/");
