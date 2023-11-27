@@ -56,8 +56,9 @@ const SalonBooking = (database) => {
         return database.manyOrNone(query, bookingData);
     };
 
-    const findStylistsForTreatment = () => {
-
+    const findStylistsForTreatment = async (treatmentCode) => {
+        const join = `inner join bookings on stylists.stylist_id = bookings.stylist_id`;
+        return database.manyOrNone(`select stylist_first_name, stylist_last_name from stylists ${join} where treatment_code = $1`, [treatmentCode]);
     };
 
     const findAllBookings__ = async (booking) => {

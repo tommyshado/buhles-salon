@@ -161,8 +161,6 @@ describe("The Booking Salon", function () {
 
         const bookings = await booking.findAllBookings();
 
-        console.log(bookings);
-
         assert.deepEqual(
             [
                 {
@@ -240,6 +238,33 @@ describe("The Booking Salon", function () {
             ],
             bookings
         );
+    });
+
+    it("should be able to find stylist booked for treatment", async () => {
+        // First check if client exist
+        const client = await booking.findClient("Mthunzi");
+
+        const stylist = await booking.findStylist("0786457736");
+
+        // Clients makes Pedicure booking
+        const makeAbooking = {
+            date: "2023-12-01",
+            time: "10:30",
+            booked: true,
+            clientId: client.client_id,
+            stylistId: stylist.stylist_id,
+            treatmentCode: treatmentCodes.BrowsAndLashes,
+        };
+
+        // Make client booking
+        await booking.makeBooking(makeAbooking);
+
+        const bookings = await booking.findClientBookings(makeAbooking);
+
+        assert.deepEqual(1, bookings.length);
+
+        const bookedStylists = await booking.findStylistsForTreatment(treatmentCodes.BrowsAndLashes);
+        assert.deepEqual([{ stylist_first_name: 'Sino', stylist_last_name: 'Mguli' }], bookedStylists);
     });
 
     // it("should be able to calculate the total income for a day", function() {
