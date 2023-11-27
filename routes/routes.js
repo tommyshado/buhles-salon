@@ -65,7 +65,17 @@ router.post("/bookings/searchBooking/", async (req, res) => {
         date: date,
         time: time
     };
+
+    const providedBooking = _.isEmpty(booking);
+
+    if (providedBooking) {
+        req.flash("error", "Select date or time.");
+        res.redirect("/bookings/all");
+    };
+
     const foundBookings = await salonService.findAllBookings__(booking);
+
+    req.flash("success", "Found a booking.");
 
     res.render("bookings", {
         madeBookings: foundBookings
