@@ -16,30 +16,44 @@ router.get("/", async (req, res) => {
     });
 });
 
-router.post("/book/treatment/stylistId/:stylistId/clientId/:clientId", async (req, res) => {
-    const { treatmentCode, date, time } = req.body;
-    const { stylistId, clientId } = req.params;
+router.post("/book/treatment/", async (req, res) => {
+    const { treatmentCode, date, time, stylistNumber, clientName } = req.body;
 
-    const booking = {
-        treatmentCode: treatmentCode,
-        date: date,
-        time: time,
-        stylistId: stylistId,
-        clientId: clientId,
-    };
+    const stylist = await salonService.findStylist(stylistNumber);
+    const client = await salonService.findClient(clientName);
 
-    const isBooked = _.every(booking, Boolean);
 
-    if(isBooked) {
-        booking.booked = true;
-        // Make booking
-        salonService.makeBooking(booking);
+    console.log(typeof time);
 
-        req.flash("success", "Treatment booked successfully.");
-        res.redirect("/");
+
+    if (stylist && client) {
+        const booking = {
+            treatmentCode: treatmentCode,
+            date: date,
+            time: time,
+            stylistId: stylist.stylist_id,
+            clientId: client.client_id,
+        };
+
+        console.log(booking);
+    
+        const isBooked = _.every(booking, Boolean);
+    
+        if(isBooked) {
+            booking.booked = true;
+            // Make booking
+            salonService.makeBooking(booking);
+    
+            req.flash("success", "Treatment booked successfully.");
+            res.redirect("/");
+    
+        } else {
+            req.flash("error", "Treatment not booked successfully. Book again.");
+            res.redirect("/");
+        };
 
     } else {
-        req.flash("error", "Treatment not booked successfully.");
+        req.flash("error", "Please fill the details.");
         res.redirect("/");
     };
 });

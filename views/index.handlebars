@@ -1,34 +1,99 @@
 
-<h1 class="font-bold text-4xl">Book a treatment</h1>
+<form action="/book/treatment/" method="post">
+    <h1 class="font-bold text-4xl pt-5">Book a treatment</h1>
 
-<div class="main">
-    <div class="treatments py-20">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
-            {{#each treatments}}
-                <div class="card w-full max-w-sm rounded-md overflow-hidden shadow-lg m-1 content-center" style="margin-left: 2rem">
-                    <div class="py-4 border-2 bg-[#E5E5E5] text-2xl p-4">
-                        <strong>
-                            {{treatment_type}}
-                        </strong>
-                    </div>
-                    
-                    <div class="py-4 p-4">
-                        <strong>
-                            R {{price}}.00
-                        </strong>
-                    </div>
+    {{#if messages.error}}
+        <p class="messages">{{messages.error}}</p>
+    {{/if}}
 
-                    <label for="radio" class="w-6 h-6 p-4">
-                        <input name="treatmentCode" value="{{code}}" type="radio" class="focus:ring-2 focus:ring-[#FCA311] focus:border-[#FCA311]">
-                        <span class="text-[#FCA311]">
+    {{#if messages.success}}
+        <p class="messages">{{messages.success}}</p>
+    {{/if}}
+
+    <div class="main py-20">
+        <div class="treatments">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
+                {{#each treatments}}
+                    <div class="card w-full max-w-sm rounded-md overflow-hidden shadow-lg m-1 content-center" style="margin-left: 2rem">
+                        <div class="py-4 border-2 bg-[#E5E5E5] text-2xl p-4">
                             <strong>
-                                Book treatment
+                                {{treatment_type}}
                             </strong>
-                        </span>
-                    </label>
-                    
-                </div>
-            {{/each}}
+                        </div>
+
+                        <div class="py-4 p-4">
+                            <strong>
+                                R {{price}}.00
+                            </strong>
+                        </div>
+
+                        <label for="treatmentCode" class="w-6 h-6 p-4">
+                            <input name="treatmentCode" value="{{code}}" type="radio" class="focus:ring-2 focus:ring-[#FCA311] focus:border-[#FCA311]">
+                            <span class="text-[#FCA311]">
+                                <strong>
+                                    Book treatment
+                                </strong>
+                            </span>
+                        </label>
+
+                    </div>
+                {{/each}}
+            </div>
         </div>
     </div>
-</div>
+
+    <div class="flex justify-center py-10">
+        <div>
+            <label for="client" class="text-2xl">
+                <strong>
+                    Client first name
+                </strong>
+            </label>
+
+            <div>
+                <input name="clientName" type="text">
+            </div>
+        </div>
+
+        <div>
+            <label for="stylist" class="text-2xl">
+                <strong>
+                    Stylist number
+                </strong>
+            </label>
+
+            <div>
+                <input name="stylistNumber" type="text">
+            </div>
+        </div>
+
+        <div>
+            <label for="date" class="text-2xl">
+                <strong>
+                    Booking date
+                </strong>
+            </label>
+
+            <div>
+                <input name="date" type="date">
+            </div>
+        </div>
+
+        <div>
+            <label for="time" class="text-2xl">
+                <strong>
+                    Booking time
+                </strong>
+            </label>
+
+            <div>
+                <input name="time" type="time">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bookingButton">
+        <button type="submit" class="bg-[#FCA311] py-2 px-4 text-[#FFFFFF] font-bold">Book Now</button>
+    </div>
+</form>
