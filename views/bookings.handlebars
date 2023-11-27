@@ -1,0 +1,29 @@
+<form action="/bookings/searchBooking/" method="post">
+
+    <h1 class="font-bold text-4xl pt-5">Bookings made</h1>
+
+
+    {{#each madeBookings}}
+        <div class="bookings flex justify-center">
+            <div class="client">
+                <div>
+                    <p>{{client_first_name}} {{client_last_name}}</p>
+                    <p>Date: {{booking_date}} Time: {{booking_time}}</p>
+                    <p>{{treatment_type}}</p>
+                    <p>{{phone_number}}</p>
+                </div>
+            </div>
+
+            <div class="stylist">
+                <div>
+                    <p>{{stylist_first_name}} {{stylist_last_name}}</p>
+                    <p>{{phone_number}}</p>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+
+    {{!-- search for a booking using date and time --}}
+
+
+</form>

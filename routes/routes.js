@@ -52,4 +52,24 @@ router.post("/book/treatment/", async (req, res) => {
     };
 });
 
+router.get("/bookings/all", async (req, res) => {
+    const bookings = await salonService.findAllBookings__();
+    res.render("bookings", {
+        madeBookings: bookings
+    });
+});
+
+router.post("/bookings/searchBooking/", async (req, res) => {
+    const { date, time } = req.body;
+    const booking = {
+        date: date,
+        time: time
+    };
+    const foundBookings = await salonService.findAllBookings__(booking);
+
+    res.render("bookings", {
+        madeBookings: foundBookings
+    });
+});
+
 export default router;
