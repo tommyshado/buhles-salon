@@ -22,10 +22,6 @@ router.post("/book/treatment/", async (req, res) => {
     const stylist = await salonService.findStylist(stylistNumber);
     const client = await salonService.findClient(clientName);
 
-
-    console.log(typeof time);
-
-
     if (stylist && client) {
         const booking = {
             treatmentCode: treatmentCode,
@@ -34,8 +30,6 @@ router.post("/book/treatment/", async (req, res) => {
             stylistId: stylist.stylist_id,
             clientId: client.client_id,
         };
-
-        console.log(booking);
     
         const isBooked = _.every(booking, Boolean);
     
