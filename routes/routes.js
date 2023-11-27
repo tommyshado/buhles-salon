@@ -31,6 +31,7 @@ router.post("/book/treatment/stylistId/:stylistId/clientId/:clientId", async (re
     const isBooked = _.every(booking, Boolean);
 
     if(isBooked) {
+        booking.booked = true;
         // Make booking
         salonService.makeBooking(booking);
 
