@@ -8,6 +8,7 @@ import _ from "lodash";
 const router = Router();
 const salonService = SalonBooking(database);
 
+// Create a route to show all available bookings
 router.get("/", async (req, res) => {
     const availableTreatment = await salonService.findAllTreatments();
 
@@ -16,6 +17,7 @@ router.get("/", async (req, res) => {
     });
 });
 
+// Create a route to make a booking
 router.post("/book/treatment/", async (req, res) => {
     const { treatmentCode, date, time, stylistNumber, clientName } = req.body;
 
@@ -52,6 +54,8 @@ router.post("/book/treatment/", async (req, res) => {
     };
 });
 
+
+// Create a route to display all bookings
 router.get("/bookings/all", async (req, res) => {
     const bookings = await salonService.findAllBookings__();
     res.render("bookings", {
@@ -59,6 +63,8 @@ router.get("/bookings/all", async (req, res) => {
     });
 });
 
+
+// Create a route to search for a booking
 router.post("/bookings/searchBooking/", async (req, res) => {
     const { date, time } = req.body;
     const booking = {
@@ -81,5 +87,18 @@ router.post("/bookings/searchBooking/", async (req, res) => {
         madeBookings: foundBookings
     });
 });
+
+// Create a route for displaying the total price of bookings made for a selected day
+router.get("/bookings/price", async (req, res) => {
+    res.render("bookingsPrice");
+});
+
+router.post("/bookings/price", async (req, res) => {
+    const { date } = req.body;
+    const bookingsPrice = await salonService.totalIncomeForDay(date);
+
+    
+})
+
 
 export default router;

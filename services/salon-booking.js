@@ -90,8 +90,8 @@ const SalonBooking = (database) => {
         return database.manyOrNone(query, bookingData);
     };
 
-    const totalIncomeForDay = (date) => {
-
+    const totalIncomeForDay = async (date) => {
+        return null;
     };
 
     const mostValuebleClient = () => {
