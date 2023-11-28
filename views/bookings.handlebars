@@ -2,13 +2,23 @@
 
     <h1 class="font-bold text-4xl pt-5">Bookings made</h1>
 
+    <div class="pt-5 font-bold text-2xl">
+        {{#if messages.error}}
+            <p class="messages text-[#DB162F]">{{messages.error}}</p>
+        {{/if}}
+
+        {{#if messages.success}}
+            <p class="messages text-[#53A548]">{{messages.success}}</p>
+        {{/if}}
+    </div>
 
     {{#each madeBookings}}
         <div class="bookings flex justify-center">
             <div class="client">
                 <div>
                     <p>{{client_first_name}} {{client_last_name}}</p>
-                    <p>Date: {{booking_date}} Time: {{booking_time}}</p>
+                    <p>Date: {{booking_date}}</p>
+                    <p>Time: {{booking_time}}</p>
                     <p>{{treatment_type}}</p>
                     <p>{{phone_number}}</p>
                 </div>
@@ -25,10 +35,42 @@
 
     {{!-- search for a booking using date and time --}}
 
+    <div>
+        <h2 class="font-bold text-2xl pt-5">Find bookings</h2>
 
+
+        <div class="flex justify-center py-10">
+            <div>
+                <label for="date" class="text-2xl">
+                    <strong>
+                        Booking date
+                    </strong>
+                </label>
+
+                <div>
+                    <input name="date" type="date">
+                </div>
+            </div>
+
+            <div>
+                <label for="time" class="text-2xl">
+                    <strong>
+                        Booking time
+                    </strong>
+                </label>
+
+                <div>
+                    <input name="time" type="time">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="findBookingBtn">
+        <button type="submit" class="bg-[#FCA311] py-2 px-4 text-[#FFFFFF] font-bold">Find booking</button>
+    </div>
 
     {{!-- navigate into the bookingsPrice page --}}
     <a href="/bookings/price" class="text-[#FCA311] font-bold">View bookings price</a>
-
 
 </form>

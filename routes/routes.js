@@ -72,20 +72,42 @@ router.post("/bookings/searchBooking/", async (req, res) => {
         time: time
     };
 
-    const providedBooking = _.isEmpty(booking);
+    if (booking.date && booking.time) {
+        const foundBookings = await salonService.findAllBookings__(booking);
+        
+        req.flash("success", "Found a booking.");
 
-    if (providedBooking) {
+        res.render("bookings", {
+            madeBookings: foundBookings
+        });
+
+    } else if (booking.date) {
+        const foundBookings = await salonService.findAllBookings__({
+            date: date
+        });
+        
+        req.flash("success", "Found a booking.");
+
+        res.render("bookings", {
+            madeBookings: foundBookings
+        });
+    } else if (booking.time) {
+        const foundBookings = await salonService.findAllBookings__({
+            time: time
+        });
+        
+        req.flash("success", "Found a booking.");
+
+        res.render("bookings", {
+            madeBookings: foundBookings
+        });
+    }
+    
+    else {
         req.flash("error", "Select date or time.");
         res.redirect("/bookings/all");
+        return;
     };
-
-    const foundBookings = await salonService.findAllBookings__(booking);
-
-    req.flash("success", "Found a booking.");
-
-    res.render("bookings", {
-        madeBookings: foundBookings
-    });
 });
 
 // Create a route for displaying the total price of bookings made for a selected day
