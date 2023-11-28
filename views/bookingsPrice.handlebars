@@ -1,5 +1,39 @@
 <form action="/bookings/price" method="post">
 
-    <h1>Welcome to bookings price page</h1>
+    <h1 class="text-4xl">
+        <strong>
+            Welcome to bookings price page
+        </strong>
+    </h1>
+
+    <div>
+        <h2 class="text-2xl">
+            <strong>
+                Total income
+            </strong>
+        </h2>
+
+        {{#if bookingsPrice}}
+            <div class="text-2xl text-[#53A548]">
+                You have made
+                <strong>
+                    R {{bookingsPrice}}.00
+                </strong>
+                worth of bookings.
+            </div>
+        {{/if}}
+
+        <label for="date" class="text-xl">
+            Select day
+        </label>
+
+        <div>
+            <input name="date" type="date">
+        </div>
+
+        <div>
+            <button type="submit" class="bg-[#FCA311] py-2 px-4 text-[#FFFFFF] font-bold">Get price</button>
+        </div>
+    </div>
 
 </form>

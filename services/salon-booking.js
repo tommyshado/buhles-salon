@@ -34,17 +34,17 @@ const SalonBooking = (database) => {
         await database.none(query, bookingData);
     };
 
-    const findAllBookings = (date) => {
+    const findAllBookings = async (date) => {
         const join1 = `inner join treatments on bookings.treatment_code = treatments.code`;
         const join2 = `inner join clients on bookings.client_id = clients.client_id`;
         const join3 = `inner join stylists on bookings.stylist_id = stylists.stylist_id`;
         const selection = `booking_date::text, booking_time, treatment_type, clients.client_first_name, clients.client_last_name, stylists.stylist_first_name, stylists.stylist_last_name`;
         const query = `select ${selection} from bookings ${join1} ${join2} ${join3} where bookings.booking_date::text = $1`;
 
-        return database.manyOrNone(query, [date]);
+        return await database.manyOrNone(query, [date]);
     };
 
-    const findClientBookings = (booking) => {
+    const findClientBookings = async (booking) => {
         const bookingData = [
             booking.treatmentCode,
             booking.clientId
@@ -55,12 +55,12 @@ const SalonBooking = (database) => {
         const selection = `booking_date::text, booking_time, treatments.treatment_type, treatments.treatment_id, clients.client_first_name, clients.client_last_name, stylists.stylist_first_name, stylists.stylist_last_name`;
         const query = `select ${selection} from bookings ${join1} ${join2} ${join3} where bookings.treatment_code = $1 and bookings.client_id = $2`;
 
-        return database.manyOrNone(query, bookingData);
+        return await database.manyOrNone(query, bookingData);
     };
 
     const findStylistsForTreatment = async (treatmentCode) => {
         const join = `inner join bookings on stylists.stylist_id = bookings.stylist_id`;
-        return database.manyOrNone(`select stylist_first_name, stylist_last_name from stylists ${join} where treatment_code = $1`, [treatmentCode]);
+        return await database.manyOrNone(`select stylist_first_name, stylist_last_name from stylists ${join} where treatment_code = $1`, [treatmentCode]);
     };
 
     const findAllBookings__ = async (booking) => {
@@ -73,7 +73,7 @@ const SalonBooking = (database) => {
             const join3 = `inner join stylists on bookings.stylist_id = stylists.stylist_id`;
             const query = `select * from bookings ${join1} ${join2} ${join3}`;
 
-            return database.manyOrNone(query);
+            return await database.manyOrNone(query);
         };
 
         const bookingData = [
@@ -87,11 +87,13 @@ const SalonBooking = (database) => {
         const selection = `booking_date::text, booking_time, treatments.treatment_type, treatments.treatment_id, clients.client_first_name, clients.client_last_name, stylists.stylist_first_name, stylists.stylist_last_name`;
         const query = `select ${selection} from bookings ${join1} ${join2} ${join3} where bookings.booking_date = $1 or bookings.booking_time = $2`;
 
-        return database.manyOrNone(query, bookingData);
+        return await database.manyOrNone(query, bookingData);
     };
 
     const totalIncomeForDay = async (date) => {
-        return null;
+        const join = `inner join treatments on bookings.treatment_code = treatments.code`;
+        const query = `select SUM(price) AS booking_price from bookings ${join} where booking_date = $1`;
+        return await database.oneOrNone(query, [date]);
     };
 
     const mostValuebleClient = () => {

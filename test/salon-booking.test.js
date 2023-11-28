@@ -267,9 +267,28 @@ describe("The Booking Salon", function () {
         assert.deepEqual([{ stylist_first_name: 'Sino', stylist_last_name: 'Mguli' }], bookedStylists);
     });
 
-    // it("should be able to calculate the total income for a day", function() {
-    //     assert.equal(1, 2);
-    // })
+    it("should be able to calculate the total income for a day", async function() {
+        // First check if client exist
+        const client = await booking.findClient("Mthunzi");
+
+        const stylist = await booking.findStylist("0786457736");
+
+        // Clients makes Pedicure booking
+        const makeAbooking = {
+            date: "2023-12-04",
+            time: "10:30",
+            booked: true,
+            clientId: client.client_id,
+            stylistId: stylist.stylist_id,
+            treatmentCode: treatmentCodes.BrowsAndLashes,
+        };
+
+        // Make client booking
+        await booking.makeBooking(makeAbooking);
+        const date = '2023-12-04';
+        const bookingsPrice = await booking.totalIncomeForDay(date);
+        assert.equal(240, Number(bookingsPrice.booking_price));
+    })
 
     // it("should be able to find the most valuable client", function() {
     //     assert.equal(1, 2);
