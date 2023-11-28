@@ -6,6 +6,12 @@
         </strong>
     </h1>
 
+    <div class="pt-5 font-bold text-2xl">
+        {{#if messages.error}}
+            <p class="messages text-[#DB162F]">{{messages.error}}</p>
+        {{/if}}
+    </div>
+
     <div>
         <h2 class="text-2xl">
             <strong>

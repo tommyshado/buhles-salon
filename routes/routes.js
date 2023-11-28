@@ -117,11 +117,19 @@ router.get("/bookings/price", async (req, res) => {
 
 router.post("/bookings/price", async (req, res) => {
     const { date } = req.body;
-    const bookingsPrice = await salonService.totalIncomeForDay(date);
 
-    res.render("bookingsPrice", {
-        bookingsPrice: bookingsPrice.booking_price,
-    });
+    if (date) {
+        const bookingsPrice = await salonService.totalIncomeForDay(date);
+    
+        res.render("bookingsPrice", {
+            bookingsPrice: bookingsPrice.booking_price,
+        });
+
+    } else {
+        req.flash("error", "Select date or time.");
+        res.redirect("/bookings/price");
+        return;
+    };
     
 })
 
